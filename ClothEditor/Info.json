@@ -1,0 +1,11 @@
+﻿{
+	"Id": "ClothEditor",
+	"DisplayName": "ClothEditor",
+	"Author": "Guru",
+	"Version": "0.2.1",
+	"ManagerVersion": "0.22.5.0",
+	"Requirements": [],
+	"LoadAfter": [],
+	"AssemblyName": "ClothEditor.dll",
+	"EntryMethod": "ClothEditor.Main.Load"
+}
