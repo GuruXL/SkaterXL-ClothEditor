@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Linq;
 using SkaterXL.Core;
-using RootMotion;
 using ReplayEditor;
 
 namespace ClothEditor
@@ -26,18 +25,20 @@ namespace ClothEditor
         private Transform MasterPrefab;
         public Transform Skater;
         public Transform ReplaySkater;
+        Transform replay;
         //Transform Replay_LeftArm;
         //Transform Replay_RightArm;
         public Type state;
 
-        public SkaterXL.Gameplay.RagdollController RagDollCtrl;
-        public SkaterXL.Gameplay.GameplayController GamePlayCtrl;
+        //public SkaterXL.Gameplay.RagdollController RagDollCtrl; // 1.2.6.0
+        //public SkaterXL.Gameplay.GameplayController GamePlayCtrl; // 1.2.6.0
         public ReplayPlaybackController ReplayCtrl;
         
 
         public void Awake()
         {
-            MasterPrefab = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent;
+            //MasterPrefab = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent; // 1.2.6.0
+            MasterPrefab = PlayerController.Instance.skaterController.transform.parent.transform.parent;
 
             if (MasterPrefab != null)
             {
@@ -115,6 +116,20 @@ namespace ClothEditor
         }
         Transform GetSkater()
         {
+            Transform Gameplay = MasterPrefab.Find("GamePlay");
+            Transform NewSkater = Gameplay.Find("NewSkater");
+            Transform Skater = NewSkater.Find("Skater");
+
+            if (Skater != null)
+            {
+                Main.Logger.Log("Skater Found");
+            }
+
+            return Skater;
+        }
+        /*
+        Transform GetSkater()
+        {
             Transform GamePlay = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent.FindChildRecursively("GamePlayNew");
             GamePlayCtrl = GamePlay.GetComponent<SkaterXL.Gameplay.GameplayController>();
             Transform Skaterparent = GamePlay.Find("Skater");
@@ -124,8 +139,23 @@ namespace ClothEditor
 
             return Skater;
         }
+        */
+        Transform GetReplaySkater()
+        {
+            replay = MasterPrefab.Find("ReplayEditor");
+            Transform playback = replay.Find("Playback Skater Root");
+            Transform NewSkater = playback.Find("NewSkater");
+            Transform ReplaySkater = NewSkater.Find("Skater");
 
-        Transform replay;
+            if (ReplaySkater != null)
+            {
+                Main.Logger.Log("ReplaySkater Found");
+            }
+
+            return ReplaySkater;
+        }
+
+        /*
         Transform GetReplaySkater()
         {
             replay = MasterPrefab.Find("ReplayEditor");
@@ -141,6 +171,7 @@ namespace ClothEditor
 
             return ReplaySkater;
         }
+        */
 
         /*
         Transform GetBone(string Bone)
@@ -496,7 +527,15 @@ namespace ClothEditor
         }
         */
 
-        
+        public void ArmsUp()
+        {
+            if ()
+            {
+                LiftArms();
+            }
+        }
+
+        /*
         public void ArmsUp()
         {
             if (GamePlayCtrl.playerData.IsOnGroundState() && GamePlayCtrl.skaterController.skaterRigidbody.velocity.magnitude < 1)
@@ -504,8 +543,24 @@ namespace ClothEditor
                 LiftArms();
             }
         }
-        
-        
+        */
+
+        void LiftArms()
+        {
+            if (PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
+            {
+                PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation =
+                new Quaternion(-Mathf.Abs(Main.settings.ArmHeight), PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.y, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.z, 0);
+            }
+
+            if (PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.x != Main.settings.ArmHeight)
+            {
+                PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation =
+                new Quaternion(Main.settings.ArmHeight, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.y, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.z, 0);
+            }
+        }
+
+        /*
         void LiftArms()
         {
             if (Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
@@ -520,6 +575,6 @@ namespace ClothEditor
                 new Quaternion(Main.settings.ArmHeight, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.y, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.z, 0);
             }
         }
-        
+        */
     }
 }
