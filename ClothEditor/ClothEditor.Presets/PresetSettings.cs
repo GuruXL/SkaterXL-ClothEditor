@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClothEditor
+namespace ClothEditor.Presets
 {
     [Serializable]
     public class PresetSettings : MonoBehaviour

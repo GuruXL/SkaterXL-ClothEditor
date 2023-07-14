@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using ModIO.UI;
 using GameManagement;
-using UnityEngine.SceneManagement;
 using System;
-using System.Linq;
-using SkaterXL.Core;
 using ReplayEditor;
 
-namespace ClothEditor
+namespace ClothEditor.Controller
 {
     public class ClothController : MonoBehaviour
     {
@@ -38,7 +33,7 @@ namespace ClothEditor
         public void Awake()
         {
             //MasterPrefab = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent; // 1.2.6.0
-            MasterPrefab = PlayerController.Instance.skaterController.transform.parent.transform.parent;
+            MasterPrefab = PlayerController.Instance.skaterController.transform.parent.transform.parent; // 1.2.2.8
 
             if (MasterPrefab != null)
             {
@@ -485,7 +480,8 @@ namespace ClothEditor
             }
         }
 
-        /*
+        /* old constraint funtion, above soloution is better.
+         * 
         public Vector3 min, max;
         public void SetConstraints(Cloth activeCloth, int options)
         {
@@ -529,14 +525,14 @@ namespace ClothEditor
 
         public void ArmsUp()
         {
-            if ()
+            if (PlayerController.Instance.playerSM.IsOnGroundStateSM() && PlayerController.Instance.skaterController.skaterRigidbody.velocity.magnitude < 1)
             {
                 LiftArms();
             }
         }
-
+        
         /*
-        public void ArmsUp()
+        public void ArmsUp() // 1.2.6.0
         {
             if (GamePlayCtrl.playerData.IsOnGroundState() && GamePlayCtrl.skaterController.skaterRigidbody.velocity.magnitude < 1)
             {
@@ -561,7 +557,7 @@ namespace ClothEditor
         }
 
         /*
-        void LiftArms()
+        void LiftArms() // 1.2.6.0
         {
             if (Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
             {

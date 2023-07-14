@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using RapidGUI;
-using UnityEngine.SceneManagement;
 using GameManagement;
-using UnityEngine.UI;
-using ModIO.UI;
 
-namespace ClothEditor
+namespace ClothEditor.UI
 {
     public class UItab // UI dropdown tabs class
     {
@@ -319,11 +316,13 @@ namespace ClothEditor
 
                                         if (!Main.settings.ArmupToggle)
                                         {
-                                            //PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[6].Reset();
-                                            //PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[9].Reset();
+                                            // 1.2.2.8
+                                            PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[6].Reset();
+                                            PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[9].Reset();
 
-                                            Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[6].Reset();
-                                            Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[9].Reset();
+                                            // 1.2.6.0
+                                            //Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[6].Reset();
+                                            //Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[9].Reset();
                                         }
                                     }
                                     GUILayout.EndVertical();

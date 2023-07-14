@@ -4,6 +4,10 @@ using RapidGUI;
 using UnityEngine;
 using UnityModManagerNet;
 using ModIO.UI;
+using ClothEditor.Controller;
+using ClothEditor.UI;
+using ClothEditor.Presets;
+using ClothEditor.Utils;
 
 namespace ClothEditor
 {

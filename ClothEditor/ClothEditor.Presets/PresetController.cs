@@ -5,7 +5,7 @@ using UnityEngine;
 using System.IO;
 using ModIO.UI;
 
-namespace ClothEditor
+namespace ClothEditor.Presets
 {
     public class PresetController : MonoBehaviour
     {
