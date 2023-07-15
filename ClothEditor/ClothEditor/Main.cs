@@ -92,25 +92,20 @@ namespace ClothEditor
                     harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
                     ScriptManager = new GameObject("ClothEditor");
                     PresetManager = new GameObject("PresetManager");
+                    Object.DontDestroyOnLoad(ScriptManager);
                     PresetManager.transform.SetParent(ScriptManager.transform);
 
                     Clothctrl = ScriptManager.AddComponent<ClothController>();
                     UIctrl = ScriptManager.AddComponent<UIController>();
-
                     presetSettings = PresetManager.AddComponent<PresetSettings>();
                     PresetCtrl = PresetManager.AddComponent<PresetController>();
-
                     Gradientctrl = ScriptManager.AddComponent<GradientViewer>();
-
-                    Object.DontDestroyOnLoad(ScriptManager);
-                    //Object.DontDestroyOnLoad(PresetManager);
                 }
                 else
                 {
                     harmonyInstance.UnpatchAll(harmonyInstance.Id);
-                    Gradientctrl.UnloadAssetBundle();
+                    AssetLoader.UnloadAssetBundle();
                     Object.Destroy(ScriptManager);
-                    //Object.Destroy(PresetManager);
                 }
                 flag = true;
             }
@@ -119,8 +114,8 @@ namespace ClothEditor
         public static bool Unload(UnityModManager.ModEntry modEntry)
         {
             harmonyInstance.UnpatchAll(harmonyInstance.Id);
+            AssetLoader.UnloadAssetBundle();
             Object.Destroy(ScriptManager);
-            Object.Destroy(PresetManager);
             Logger.Log(nameof(Unload));
             return true;
         }

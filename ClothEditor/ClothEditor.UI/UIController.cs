@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using RapidGUI;
 using GameManagement;
+using ClothEditor.Utils;
 
 namespace ClothEditor.UI
 {
@@ -299,11 +300,11 @@ namespace ClothEditor.UI
 
                                         if (Main.settings.GizmosToggle)
                                         {
-                                            Main.Gradientctrl.activeGradientObj.SetActive(true);
+                                            AssetLoader.activeGradient.SetActive(true);
                                         }
                                         if (!Main.settings.GizmosToggle)
                                         {
-                                            Main.Gradientctrl.activeGradientObj.SetActive(false);
+                                            AssetLoader.activeGradient.SetActive(false);
                                         }
                                     }
                                     GUILayout.EndVertical();

@@ -3,6 +3,7 @@ using ModIO.UI;
 using GameManagement;
 using System;
 using ReplayEditor;
+using ClothEditor.Utils;
 
 namespace ClothEditor.Controller
 {
@@ -40,6 +41,11 @@ namespace ClothEditor.Controller
                 Skater = GetSkater();
                 ReplaySkater = GetReplaySkater();
             }
+        }
+
+        public void Start()
+        {
+            AssetLoader.LoadBundles();
         }
 
         public void Update()
@@ -105,7 +111,7 @@ namespace ClothEditor.Controller
             Main.settings.resetToggles();
             ClothComponentList = null;
             PlayerGearList = null;
-            Main.Gradientctrl.activeGradientObj.SetActive(false);
+            AssetLoader.activeGradient.SetActive(false);
             LastTarget = "None";
             LastPlayerTarget = "None";
         }
