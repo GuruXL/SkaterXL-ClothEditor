@@ -317,13 +317,8 @@ namespace ClothEditor.UI
 
                                         if (!Main.settings.ArmupToggle)
                                         {
-                                            // 1.2.2.8
-                                            PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[6].Reset();
-                                            PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[9].Reset();
-
-                                            // 1.2.6.0
-                                            //Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[6].Reset();
-                                            //Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[9].Reset();
+                                            PlayerController.Main.gameplay.ragdollController.puppetMaster.muscles[6].Reset();
+                                            PlayerController.Main.gameplay.ragdollController.puppetMaster.muscles[9].Reset();
                                         }
                                     }
                                     GUILayout.EndVertical();

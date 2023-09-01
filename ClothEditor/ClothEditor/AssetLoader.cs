@@ -25,8 +25,7 @@ namespace ClothEditor
             if (unityObjectType != null)
             {
                 // start asset loading
-                PlayerController.Instance.StartCoroutine(LoadAssetBundle()); // 1.2.2.8
-                //PlayerController.Instance.StartCoroutine(LoadAssetBundle()); // 1.2.6.0             
+                PlayerController.Main.StartCoroutine(LoadAssetBundle());       
             }
         }
 
@@ -65,9 +64,9 @@ namespace ClothEditor
                 MessageSystem.QueueMessage(MessageDisplayData.Type.Error, $"Failed to LOAD ClothEditor Asset Bundle", 2.5f);
                 yield break;
             }
-            yield return PlayerController.Instance.StartCoroutine(LoadPrefabs());
+            yield return PlayerController.Main.StartCoroutine(LoadPrefabs());
             yield return new WaitUntil(() => prefabsLoaded == true);
-            yield return PlayerController.Instance.StartCoroutine(InstantiatePrefabs());
+            yield return PlayerController.Main.StartCoroutine(InstantiatePrefabs());
         }
 
         private static IEnumerator LoadPrefabs()
@@ -77,7 +76,7 @@ namespace ClothEditor
                 MessageSystem.QueueMessage(MessageDisplayData.Type.Error, $"ClothEditor Asset bundles are not loaded!", 2.5f);
                 yield break;
             }
-            yield return PlayerController.Instance.StartCoroutine(LoadGradientPrefab());
+            yield return PlayerController.Main.StartCoroutine(LoadGradientPrefab());
 
             // Wait for all prefabs to finish loading before setting prefabsLoaded to true
             while (GradientObject == null)

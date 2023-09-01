@@ -26,15 +26,12 @@ namespace ClothEditor.Controller
         //Transform Replay_RightArm;
         public Type state;
 
-        //public SkaterXL.Gameplay.RagdollController RagDollCtrl; // 1.2.6.0
-        //public SkaterXL.Gameplay.GameplayController GamePlayCtrl; // 1.2.6.0
         public ReplayPlaybackController ReplayCtrl;
         
 
         public void Awake()
         {
-            //MasterPrefab = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent; // 1.2.6.0
-            MasterPrefab = PlayerController.Instance.skaterController.transform.parent.transform.parent; // 1.2.2.8
+            MasterPrefab = PlayerController.Main.transform.parent;
 
             if (MasterPrefab != null)
             {
@@ -531,52 +528,27 @@ namespace ClothEditor.Controller
 
         public void ArmsUp()
         {
-            if (PlayerController.Instance.playerSM.IsOnGroundStateSM() && PlayerController.Instance.skaterController.skaterRigidbody.velocity.magnitude < 1)
+            // checks if the player is on the ground and not moving before lifing arms.
+            if (PlayerController.Main.gameplay.playerSM.playerData.IsOnGroundState() && PlayerController.Main.gameplay.skaterController.skaterRigidbody.velocity.sqrMagnitude < 0.0001f)
             {
                 LiftArms();
             }
         }
-        
-        /*
-        public void ArmsUp() // 1.2.6.0
-        {
-            if (GamePlayCtrl.playerData.IsOnGroundState() && GamePlayCtrl.skaterController.skaterRigidbody.velocity.magnitude < 1)
-            {
-                LiftArms();
-            }
-        }
-        */
 
         void LiftArms()
         {
-            if (PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
+            var leftArm = PlayerController.Main.gameplay.ragdollController.puppetMaster.muscles[4];
+            var rightArm = PlayerController.Main.gameplay.ragdollController.puppetMaster.muscles[7];
+
+            if (leftArm.transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
             {
-                PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation =
-                new Quaternion(-Mathf.Abs(Main.settings.ArmHeight), PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.y, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.z, 0);
+                leftArm.transform.localRotation = new Quaternion(-Mathf.Abs(Main.settings.ArmHeight), leftArm.transform.localRotation.y, leftArm.transform.localRotation.z, 0);
             }
 
-            if (PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.x != Main.settings.ArmHeight)
+            if (rightArm.transform.localRotation.x != Main.settings.ArmHeight)
             {
-                PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation =
-                new Quaternion(Main.settings.ArmHeight, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.y, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.z, 0);
+                rightArm.transform.localRotation = new Quaternion(Main.settings.ArmHeight, rightArm.transform.localRotation.y, rightArm.transform.localRotation.z, 0);
             }
         }
-
-        /*
-        void LiftArms() // 1.2.6.0
-        {
-            if (Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
-            {
-                Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation =
-                new Quaternion(-Mathf.Abs(Main.settings.ArmHeight), Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.y, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.z, 0);
-            }
-
-            if (Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.x != Main.settings.ArmHeight)
-            {
-                Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation =
-                new Quaternion(Main.settings.ArmHeight, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.y, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.z, 0);
-            }
-        }
-        */
     }
 }
