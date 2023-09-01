@@ -194,7 +194,7 @@ namespace ClothEditor.UI
                             }
                             else
                             {
-                                Main.Clothctrl.PlayerGearList = Main.Clothctrl.GetGear(Main.Clothctrl.ReplaySkater);
+                                Main.Clothctrl.PlayerGearList = Main.Clothctrl.GetGear(Main.Clothctrl.ReplaySkater_ClothParent);
                             }
                         }
 
@@ -238,7 +238,7 @@ namespace ClothEditor.UI
                             }
                             else
                             {
-                                Main.Clothctrl.ClothComponentList = Main.Clothctrl.GetClothComponents(Main.Clothctrl.ReplaySkater);
+                                Main.Clothctrl.ClothComponentList = Main.Clothctrl.GetClothComponents(Main.Clothctrl.ReplaySkater_ClothParent);
                             }
 
                         }

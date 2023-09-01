@@ -20,8 +20,8 @@ namespace ClothEditor.Controller
         private Cloth activeGearCloth;
         private Transform MasterPrefab;
         public Transform Skater_ClothParent = PlayerController.Main.characterCustomizer.ClothingParent;
-        public Transform ReplaySkater;
-        Transform replay;
+        public Transform ReplaySkater_ClothParent;
+        public ReplayEditorController Replay;
         //Transform Replay_LeftArm;
         //Transform Replay_RightArm;
         public Type state;
@@ -33,11 +33,7 @@ namespace ClothEditor.Controller
         {
             MasterPrefab = PlayerController.Main.transform.parent;
 
-            if (MasterPrefab != null)
-            {
-                //Skater = GetSkater();
-                ReplaySkater = GetReplaySkater();
-            }
+            GetReplayObjects();
         }
 
         public void Update()
@@ -89,8 +85,7 @@ namespace ClothEditor.Controller
             {
                 ArmsUp();
             }
-
-            
+     
             if (Main.settings.GizmosToggle)
             {
                 Main.Gradientctrl.SetGradientViewPos();
@@ -107,6 +102,8 @@ namespace ClothEditor.Controller
             LastTarget = "None";
             LastPlayerTarget = "None";
         }
+
+        /*
         Transform GetSkaterClothParent()
         {
             Transform Skater = PlayerController.Main.characterCustomizer.ClothingParent;
@@ -117,20 +114,12 @@ namespace ClothEditor.Controller
 
             return Skater;
         }
-      
-        Transform GetReplaySkater()
+        */
+
+        private void GetReplayObjects()
         {
-            replay = MasterPrefab.Find("ReplayEditor");
-            Transform playback = replay.Find("Playback Skater Root");
-            Transform NewSkater = playback.Find("NewSkater");
-            Transform ReplaySkater = NewSkater.Find("Skater");
-
-            if (ReplaySkater != null)
-            {
-                Main.Logger.Log("ReplaySkater Found");
-            }
-
-            return ReplaySkater;
+            Replay = GameStateMachine.Instance.ReplayObject.GetComponent<ReplayEditorController>();
+            ReplaySkater_ClothParent = Replay.playbackController.characterCustomizer.ClothingParent;
         }
 
         /*
