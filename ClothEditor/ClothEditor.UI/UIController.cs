@@ -190,7 +190,7 @@ namespace ClothEditor.UI
                         {
                             if (Main.Clothctrl.state != typeof(ReplayState))
                             {
-                                Main.Clothctrl.PlayerGearList = Main.Clothctrl.GetGear(Main.Clothctrl.Skater);
+                                Main.Clothctrl.PlayerGearList = Main.Clothctrl.GetGear(Main.Clothctrl.Skater_ClothParent);
                             }
                             else
                             {
@@ -234,7 +234,7 @@ namespace ClothEditor.UI
                         {
                             if (Main.Clothctrl.state != typeof(ReplayState))
                             {
-                                Main.Clothctrl.ClothComponentList = Main.Clothctrl.GetClothComponents(Main.Clothctrl.Skater);
+                                Main.Clothctrl.ClothComponentList = Main.Clothctrl.GetClothComponents(Main.Clothctrl.Skater_ClothParent);
                             }
                             else
                             {

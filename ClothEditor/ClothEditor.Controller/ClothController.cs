@@ -19,7 +19,7 @@ namespace ClothEditor.Controller
         public SkinnedMeshRenderer activeGear;
         private Cloth activeGearCloth;
         private Transform MasterPrefab;
-        public Transform Skater;
+        public Transform Skater_ClothParent = PlayerController.Main.characterCustomizer.ClothingParent;
         public Transform ReplaySkater;
         Transform replay;
         //Transform Replay_LeftArm;
@@ -35,14 +35,9 @@ namespace ClothEditor.Controller
 
             if (MasterPrefab != null)
             {
-                Skater = GetSkater();
+                //Skater = GetSkater();
                 ReplaySkater = GetReplaySkater();
             }
-        }
-
-        public void Start()
-        {
-            AssetLoader.LoadBundles();
         }
 
         public void Update()
@@ -112,12 +107,9 @@ namespace ClothEditor.Controller
             LastTarget = "None";
             LastPlayerTarget = "None";
         }
-        Transform GetSkater()
+        Transform GetSkaterClothParent()
         {
-            Transform Gameplay = MasterPrefab.Find("GamePlay");
-            Transform NewSkater = Gameplay.Find("NewSkater");
-            Transform Skater = NewSkater.Find("Skater");
-
+            Transform Skater = PlayerController.Main.characterCustomizer.ClothingParent;
             if (Skater != null)
             {
                 Main.Logger.Log("Skater Found");
@@ -125,19 +117,7 @@ namespace ClothEditor.Controller
 
             return Skater;
         }
-        /*
-        Transform GetSkater()
-        {
-            Transform GamePlay = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent.FindChildRecursively("GamePlayNew");
-            GamePlayCtrl = GamePlay.GetComponent<SkaterXL.Gameplay.GameplayController>();
-            Transform Skaterparent = GamePlay.Find("Skater");
-            Transform Skater = Skaterparent.Find("Skater");
-            Transform ragdoll = GamePlay.Find("Ragdoll");
-            RagDollCtrl = ragdoll.GetComponent<SkaterXL.Gameplay.RagdollController>();
-
-            return Skater;
-        }
-        */
+      
         Transform GetReplaySkater()
         {
             replay = MasterPrefab.Find("ReplayEditor");

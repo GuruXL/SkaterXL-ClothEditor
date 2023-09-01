@@ -100,6 +100,9 @@ namespace ClothEditor
                     presetSettings = PresetManager.AddComponent<PresetSettings>();
                     PresetCtrl = PresetManager.AddComponent<PresetController>();
                     Gradientctrl = ScriptManager.AddComponent<GradientViewer>();
+
+                    EnableCheck();
+                    AssetLoader.LoadBundles();
                 }
                 else
                 {
@@ -120,6 +123,14 @@ namespace ClothEditor
             return true;
         }
 
+        private static void EnableCheck()
+        {
+            Clothctrl.enabled |= true;
+            UIctrl.enabled |= true;
+            presetSettings.enabled |= true;
+            PresetCtrl.enabled |= true;
+            Gradientctrl.enabled |= true;
+        }
         public static UnityModManager.ModEntry.ModLogger Logger => modEntry.Logger;
     }
 }

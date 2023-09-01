@@ -1,8 +1,8 @@
 ﻿{
 	"Id": "ClothEditor",
-	"DisplayName": "ClothEditor sxl 1.2.2.8",
+	"DisplayName": "ClothEditor sxl 1.2.7.6",
 	"Author": "Guru",
-	"Version": "0.2.2",
+	"Version": "0.2.3",
 	"ManagerVersion": "0.22.5.0",
 	"Requirements": [],
 	"LoadAfter": [],
