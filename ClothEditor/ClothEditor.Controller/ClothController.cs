@@ -19,9 +19,9 @@ namespace ClothEditor.Controller
         public SkinnedMeshRenderer activeGear;
         private Cloth activeGearCloth;
         private Transform MasterPrefab;
-        public Transform Skater;
-        public Transform ReplaySkater;
-        Transform replay;
+        public Transform Skater_ClothParent = PlayerController.Instance.characterCustomizer.ClothingParent;
+        public Transform ReplaySkater_ClothParent;
+        public ReplayEditorController replay;
         //Transform Replay_LeftArm;
         //Transform Replay_RightArm;
         public Type state;
@@ -33,19 +33,9 @@ namespace ClothEditor.Controller
 
         public void Awake()
         {
-            //MasterPrefab = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent; // 1.2.6.0
             MasterPrefab = PlayerController.Instance.skaterController.transform.parent.transform.parent; // 1.2.2.8
 
-            if (MasterPrefab != null)
-            {
-                Skater = GetSkater();
-                ReplaySkater = GetReplaySkater();
-            }
-        }
-
-        public void Start()
-        {
-            AssetLoader.LoadBundles();
+            GetReplayObjects();
         }
 
         public void Update()
@@ -97,7 +87,6 @@ namespace ClothEditor.Controller
             {
                 ArmsUp();
             }
-
             
             if (Main.settings.GizmosToggle)
             {
@@ -115,65 +104,13 @@ namespace ClothEditor.Controller
             LastTarget = "None";
             LastPlayerTarget = "None";
         }
-        Transform GetSkater()
+
+        private void GetReplayObjects()
         {
-            Transform Gameplay = MasterPrefab.Find("GamePlay");
-            Transform NewSkater = Gameplay.Find("NewSkater");
-            Transform Skater = NewSkater.Find("Skater");
-
-            if (Skater != null)
-            {
-                Main.Logger.Log("Skater Found");
-            }
-
-            return Skater;
+            replay = GameStateMachine.Instance.ReplayObject.GetComponent<ReplayEditorController>();
+            ReplaySkater_ClothParent = replay.playbackController.characterCustomizer.ClothingParent;
         }
-        /*
-        Transform GetSkater()
-        {
-            Transform GamePlay = PlayerController.Instances[PlayerController.Instances.Count - 1].transform.parent.FindChildRecursively("GamePlayNew");
-            GamePlayCtrl = GamePlay.GetComponent<SkaterXL.Gameplay.GameplayController>();
-            Transform Skaterparent = GamePlay.Find("Skater");
-            Transform Skater = Skaterparent.Find("Skater");
-            Transform ragdoll = GamePlay.Find("Ragdoll");
-            RagDollCtrl = ragdoll.GetComponent<SkaterXL.Gameplay.RagdollController>();
-
-            return Skater;
-        }
-        */
-        Transform GetReplaySkater()
-        {
-            replay = MasterPrefab.Find("ReplayEditor");
-            Transform playback = replay.Find("Playback Skater Root");
-            Transform NewSkater = playback.Find("NewSkater");
-            Transform ReplaySkater = NewSkater.Find("Skater");
-
-            if (ReplaySkater != null)
-            {
-                Main.Logger.Log("ReplaySkater Found");
-            }
-
-            return ReplaySkater;
-        }
-
-        /*
-        Transform GetReplaySkater()
-        {
-            replay = MasterPrefab.Find("ReplayEditor");
-            Transform playback = replay.Find("Playback Skater Root");
-            ReplayCtrl = playback.GetComponent<ReplayPlaybackController>();
-            Transform NewSkater = playback.Find("NewSkater");
-            Transform ReplaySkater = NewSkater.Find("Skater");
-
-            if (ReplaySkater != null)
-            {
-                Main.Logger.Log("ReplaySkater Found");
-            }
-
-            return ReplaySkater;
-        }
-        */
-
+       
         /*
         Transform GetBone(string Bone)
         {
@@ -537,46 +474,20 @@ namespace ClothEditor.Controller
             }
         }
         
-        /*
-        public void ArmsUp() // 1.2.6.0
-        {
-            if (GamePlayCtrl.playerData.IsOnGroundState() && GamePlayCtrl.skaterController.skaterRigidbody.velocity.magnitude < 1)
-            {
-                LiftArms();
-            }
-        }
-        */
-
         void LiftArms()
         {
-            if (PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
+            var leftArm = PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4];
+            var rightArm = PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7];
+
+            if (leftArm.transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
             {
-                PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation =
-                new Quaternion(-Mathf.Abs(Main.settings.ArmHeight), PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.y, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[4].transform.localRotation.z, 0);
+                leftArm.transform.localRotation = new Quaternion(-Mathf.Abs(Main.settings.ArmHeight), leftArm.transform.localRotation.y, leftArm.transform.localRotation.z, 0);
             }
 
-            if (PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.x != Main.settings.ArmHeight)
+            if (rightArm.transform.localRotation.x != Main.settings.ArmHeight)
             {
-                PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation =
-                new Quaternion(Main.settings.ArmHeight, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.y, PlayerController.Instance.respawn.behaviourPuppet.puppetMaster.muscles[7].transform.localRotation.z, 0);
+                rightArm.transform.localRotation = new Quaternion(Main.settings.ArmHeight, rightArm.transform.localRotation.y, rightArm.transform.localRotation.z, 0);
             }
         }
-
-        /*
-        void LiftArms() // 1.2.6.0
-        {
-            if (Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.x != -Mathf.Abs(Main.settings.ArmHeight))
-            {
-                Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation =
-                new Quaternion(-Mathf.Abs(Main.settings.ArmHeight), Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.y, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[4].transform.localRotation.z, 0);
-            }
-
-            if (Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.x != Main.settings.ArmHeight)
-            {
-                Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation =
-                new Quaternion(Main.settings.ArmHeight, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.y, Main.Clothctrl.RagDollCtrl.puppetMaster.muscles[7].transform.localRotation.z, 0);
-            }
-        }
-        */
     }
 }

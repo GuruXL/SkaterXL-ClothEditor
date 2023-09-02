@@ -15,8 +15,8 @@ namespace ClothEditor.Utils
                 Main.settings.GizmosToggle = false;
             }
 
-            Vector3 GradientPos = new Vector3(Main.Clothctrl.Skater.position.x, Main.Clothctrl.Skater.position.y + (Main.settings.GradientHeight / 100), Main.Clothctrl.Skater.position.z);
-            Vector3 GradientReplayPos = new Vector3(Main.Clothctrl.ReplaySkater.position.x, Main.Clothctrl.ReplaySkater.position.y + (Main.settings.GradientHeight / 100), Main.Clothctrl.ReplaySkater.position.z);
+            Vector3 GradientPos = new Vector3(Main.Clothctrl.Skater_ClothParent.position.x, Main.Clothctrl.Skater_ClothParent.position.y + (Main.settings.GradientHeight / 100), Main.Clothctrl.Skater_ClothParent.position.z);
+            Vector3 GradientReplayPos = new Vector3(Main.Clothctrl.ReplaySkater_ClothParent.position.x, Main.Clothctrl.ReplaySkater_ClothParent.position.y + (Main.settings.GradientHeight / 100), Main.Clothctrl.ReplaySkater_ClothParent.position.z);
 
             AssetLoader.activeGradient.transform.position = (GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState) ? GradientReplayPos : GradientPos);
         }  

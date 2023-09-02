@@ -100,6 +100,8 @@ namespace ClothEditor
                     presetSettings = PresetManager.AddComponent<PresetSettings>();
                     PresetCtrl = PresetManager.AddComponent<PresetController>();
                     Gradientctrl = ScriptManager.AddComponent<GradientViewer>();
+
+                    AssetLoader.LoadBundles();
                 }
                 else
                 {
